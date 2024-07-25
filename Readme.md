@@ -23,9 +23,7 @@
 # How to use
 - Clone the repository ```git clone https://github.com/SvetoslavStefanov/architech-labs-code-test.git```
 - Navigate to the project directory ```cd architech-labs-code-test```
-- Run the Docker container ```docker-compose up```
-- Open another terminal at the same directory and enter inside the container: ```docker compose exec php bash```
-- Inside the container run ```php index.php```
+- Run the Docker container ```docker-compose run php``` and follow the instructions in the cli menu
 - Run phpunit tests ```composer phpunit```
 - Run PHPStan ```composer phpstan```
 

@@ -23,6 +23,3 @@ ENTRYPOINT ["php", "index.php"]
 
 # Run the PHP CLI by default
 CMD ["php", "-a"]
-
-
-#TODO: the entry point when running docker compose up is the menu. Make it actionable
