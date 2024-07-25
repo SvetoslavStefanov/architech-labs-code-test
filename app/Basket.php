@@ -37,14 +37,6 @@ class Basket {
   }
 
   /**
-   * Get the catalogue
-   * @return Catalogue
-   */
-  public function getCatalogue(): Catalogue {
-    return $this->catalogue;
-  }
-
-  /**
    * Add an offer to the basket (that could be applied when the total is calculated)
    * @param int $limit
    * @param float $cost

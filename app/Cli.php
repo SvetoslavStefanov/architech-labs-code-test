@@ -49,7 +49,6 @@ class Cli {
    */
   public function run() {
     while (true) {
-      //TODO: add default values from the example
       $this->printMenu();
       $choice = $this->prompt("\nEnter your choice: ");
 
