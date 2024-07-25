@@ -17,8 +17,17 @@ use lib\ProductInterface;
 class Basket {
   use DeliveryCalculator;
 
+  /**
+   * @var array<ProductInterface>
+   */
   protected array $products = [];
+  /**
+   * @var array<array{limit: int, cost: float}>
+   */
   protected array $deliveryRules = [];
+  /**
+   * @var array<OfferType>
+   */
   protected array $offers = [];
 
   /**
@@ -30,7 +39,7 @@ class Basket {
 
   /**
    * Get the products in the basket
-   * @return array
+   * @return ProductInterface[]
    */
   public function getProducts(): array {
     return $this->products;
@@ -38,14 +47,19 @@ class Basket {
 
   /**
    * Add an offer to the basket (that could be applied when the total is calculated)
-   * @param int $limit
-   * @param float $cost
+   * @param OfferType|null $offerType
    */
-  public function addOffer(OfferType $offerType): void {
-    if (!OfferType::tryFrom($offerType->value)) {
-      throw new InvalidArgumentException("Offer type $offerType->value not found.");
+  public function addOffer(?OfferType $offerType): void {
+    if ($offerType === null) {
+      throw new InvalidArgumentException("Offer type is null.");
     }
-    $this->offers[] = $offerType;
+    /** @var OfferType|null $enumValue */
+    $enumValue = OfferType::tryFrom($offerType->value);
+    if ($enumValue === null) {
+      throw new InvalidArgumentException("Offer type {$offerType->value} not found.");
+    }
+
+    $this->offers[] = $enumValue;
   }
 
   /**
@@ -81,9 +95,10 @@ class Basket {
     $discount = 0.0;
 
     foreach ($this->offers as $offerData) {
-      /** @var OfferInterface $offer */
       $offer = $offerData->handler();
+      /** @var OfferType $offerData */
       $discount += $offer->calculateDiscount($this);
+      /** @var OfferInterface $offer */
     }
 
     return $discount;

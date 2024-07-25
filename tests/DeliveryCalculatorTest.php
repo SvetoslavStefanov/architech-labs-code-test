@@ -8,6 +8,10 @@ use lib\DeliveryCalculator;
 
 class DeliveryCalculatorTest extends TestCase {
   use DeliveryCalculator;
+  /**
+   * @var array<array{limit: int, cost: float}>
+   */
+  protected array $deliveryRules = [];
 
   protected function setUp(): void {
     $this->deliveryRules = [];

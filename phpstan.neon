@@ -1,0 +1,17 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+    level: max
+    paths:
+        - app
+        - tests
+        - lib
+    bootstrapFiles:
+        - vendor/autoload.php
+    ignoreErrors:
+        - message: '#Parameter \#2 \$price of class app\\Product constructor expects float, string given#'
+          path: 'tests/ProductTest.php'
+          # This is ignored because we are testing the Product class and we want to test the error
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: true

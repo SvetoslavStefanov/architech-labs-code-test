@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     unzip
 
 # Install Composer
-#COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Add Composer's global bin directory to the PATH
 ENV PATH="/root/.composer/vendor/bin:${PATH}"

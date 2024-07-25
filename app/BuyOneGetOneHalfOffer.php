@@ -38,7 +38,7 @@ class BuyOneGetOneHalfOffer implements OfferInterface {
     return $discount;
   }
 
-  private function calculateDiscountForProduct(int|string $code, mixed $count): float|int {
+  private function calculateDiscountForProduct(string $code, int $count): float {
     $discount = 0.0;
     $discountedCount = (int)($count / 2);
     $product = $this->basket->findProductByCode($code);

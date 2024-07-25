@@ -5,6 +5,9 @@ namespace app;
 use lib\ProductInterface;
 
 class Catalogue {
+  /**
+   * @var array<ProductInterface>
+   */
   protected array $products = [];
 
   /**

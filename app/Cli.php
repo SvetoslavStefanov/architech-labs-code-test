@@ -4,6 +4,7 @@ namespace app;
 
 use InvalidArgumentException;
 use lib\OfferType;
+use TypeError;
 
 class Cli {
   protected Basket $basket;
@@ -25,7 +26,9 @@ class Cli {
    */
   private function prompt(string $message): string {
     $this->write($message, false);
-    return trim(fgets(STDIN));
+
+    $input = fgets(STDIN);
+    return trim($input !== false ? $input : '');
   }
 
   /**
@@ -47,7 +50,7 @@ class Cli {
   /**
    * Run the CLI application
    */
-  public function run() {
+  public function run(): void {
     while (true) {
       $this->printMenu();
       $choice = $this->prompt("\nEnter your choice: ");
@@ -83,6 +86,8 @@ class Cli {
         case 10:
           $this->setDefaultUserData();
           break;
+        case 11:
+          return;
         default:
           $this->write("Invalid choice. Please try again.", true, 'red');
       }
@@ -104,6 +109,7 @@ class Cli {
       'Print catalogue',
       'Print basket',
       'Load same data as in the example',
+      'EXIT'
     ];
 
     $this->write("\nMenu\n", true);
@@ -127,7 +133,8 @@ class Cli {
       }
 
       try {
-        $product = new Product($name, $price, $code);
+        Product::validatePrice($price);
+        $product = new Product($name, (float)$price, $code);
         $this->catalogue->addProduct($product);
         $this->write("Product added. ", false, 'green');
         $continue = $this->prompt("Do you want to add another item? (yes/no): ");
@@ -177,7 +184,7 @@ class Cli {
    */
   protected function setDeliveryRules(): void {
     while (true) {
-      $limit = (float)$this->prompt("Enter delivery limit amount (in $$): ");
+      $limit = (int)$this->prompt("Enter delivery limit amount (in $$): ");
       $cost = (float)$this->prompt("Enter delivery cost: ");
 
       if (empty($limit) && empty($cost)) {
@@ -218,13 +225,13 @@ class Cli {
 
       try {
         $offerIndex = (int)$input - 1;
-        $this->basket->addOffer($offers[$offerIndex]);
+        $this->basket->addOffer($offers[$offerIndex] ?? null);
 
         $continue = $this->prompt("Do you want to add another offer to the basket? (yes/no): ");
         if (strtolower($continue) !== 'yes') {
           return;
         }
-      } catch (InvalidArgumentException $e) {
+      } catch (InvalidArgumentException|TypeError $e) {
         $this->write("Error: " . $e->getMessage(), true, 'red');
       }
     }

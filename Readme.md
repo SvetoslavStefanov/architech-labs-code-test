@@ -26,7 +26,8 @@
 - Run the Docker container ```docker-compose up```
 - Open another terminal at the same directory and enter inside the container: ```docker compose exec php bash```
 - Inside the container run ```php index.php```
-- Run phpunit tests ```php vendor/bin/phpunit tests```
+- Run phpunit tests ```composer phpunit```
+- Run PHPStan ```composer phpstan```
 
 From this point you'll navigate our Menu from which you can choose the desired action.
 

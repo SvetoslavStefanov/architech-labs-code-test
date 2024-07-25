@@ -9,13 +9,13 @@ class Product implements ProductInterface {
   protected float $price;
   protected string $code;
 
-  public function __construct(string $name, string $price, string $code) {
+  public function __construct(string $name, float $price, string $code) {
     $this->validateName($name);
-    $this->validatePrice($price);
+    self::validatePrice($price);
     $this->validateCode($code);
 
     $this->name = $name;
-    $this->price = (float)$price;
+    $this->price = $price;
     $this->code = $code;
   }
 
@@ -38,13 +38,13 @@ class Product implements ProductInterface {
     }
   }
 
-  private function validatePrice(string $price): void {
-    if ($price < 0) {
-      throw new \InvalidArgumentException('Price must be a positive number');
-    }
-
+  public static function validatePrice(mixed $price): void {
     if (!is_numeric($price)) {
       throw new \InvalidArgumentException('Price must be a number');
+    }
+
+    if ($price < 0) {
+      throw new \InvalidArgumentException('Price must be a positive number');
     }
   }
 

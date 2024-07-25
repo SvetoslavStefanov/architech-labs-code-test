@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 class BuyOneGetOneHalfOfferTest extends TestCase {
   protected Basket $basket;
   protected BuyOneGetOneHalfOffer $offer;
+  protected Catalogue $catalogue;
 
   protected function setUp(): void {
     $this->catalogue = new Catalogue();

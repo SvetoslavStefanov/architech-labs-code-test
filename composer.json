@@ -17,5 +17,9 @@
   "require-dev": {
     "phpunit/phpunit": "^9.6",
     "phpstan/phpstan": "^1.11"
+  },
+  "scripts": {
+    "phpstan": "phpstan analyse",
+    "phpunit": "php vendor/bin/phpunit tests"
   }
 }
