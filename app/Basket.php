@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use lib\DeliveryCalculator;
 use lib\OfferInterface;
 use lib\OfferType;
+use lib\ProductInterface;
 
 /**
  * Represents a basket of products
@@ -57,10 +58,10 @@ class Basket {
 
   /**
    * Add a product to the basket, if already exist in the catalogue
-   * @param ?Product $product
+   * @param ?ProductInterface $product
    * @throws InvalidArgumentException
    */
-  public function add(?Product $product): void {
+  public function add(?ProductInterface $product): void {
     if (!$product || !$this->catalogue->findProduct($product)){
       throw new InvalidArgumentException("Product code {$product?->getCode()} not found in the catalogue.");
     }
@@ -99,9 +100,9 @@ class Basket {
   /**
    * Find a product by product code
    * @param string $code
-   * @return Product|null
+   * @return ProductInterface|null
    */
-  public function findProductByCode(string $code): ?Product {
+  public function findProductByCode(string $code): ?ProductInterface {
     $result = null;
 
     array_map(function($product) use ($code, &$result) {

@@ -2,13 +2,7 @@
 
 namespace app;
 
-use app\Product;
 use lib\OfferInterface;
-
-/*
- * Add another offer:
- * Buy 4, get fifth free
- */
 
 /**
  * Buy one, get one half off

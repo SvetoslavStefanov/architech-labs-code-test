@@ -2,15 +2,10 @@
 
 namespace lib;
 
-/*
- * < 50: $4.95
- * < 90: $2.95
- * >= 90: $0
-
- */
 trait DeliveryCalculator {
   /**
    * Calculate the delivery cost based on the total price
+   * We assume that if there are no rules, the delivery is 0 (free) and that after the last rule, the delivery is also 0 (free)
    * @param float $total
    * @return float The delivery cost for the total price based on certain rules
    */

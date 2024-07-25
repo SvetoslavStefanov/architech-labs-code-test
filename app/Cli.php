@@ -18,11 +18,22 @@ class Cli {
     $this->basket = new Basket($this->catalogue);
   }
 
+  /**
+   * Prompt the user for input
+   * @param string $message
+   * @return string
+   */
   private function prompt(string $message): string {
     $this->write($message, false);
     return trim(fgets(STDIN));
   }
 
+  /**
+   * Write a message to the console
+   * @param string $message
+   * @param bool $addNewLine
+   * @param string $color
+   */
   private function write(string $message, bool $addNewLine, string $color = 'default'): void {
     $colors = [
       'red' => "\033[0;31m",
@@ -38,6 +49,7 @@ class Cli {
    */
   public function run() {
     while (true) {
+      //TODO: add default values from the example
       $this->printMenu();
       $choice = $this->prompt("\nEnter your choice: ");
 
@@ -68,6 +80,9 @@ class Cli {
           break;
         case 9:
           $this->printBasket();
+          break;
+        case 10:
+          $this->setDefaultUserData();
           break;
         default:
           $this->write("Invalid choice. Please try again.", true, 'red');
@@ -222,17 +237,6 @@ class Cli {
    * Calculate the total price
    */
   protected function calculate(): void {
-//    $this->basket->add($this->catalogue->findProductByCode('B01'));
-//    $this->basket->add($this->catalogue->findProductByCode('B01'));//pre: 15.9, after: 11,925
-//    $this->basket->add($this->catalogue->findProductByCode('R01'));
-//    $this->basket->add($this->catalogue->findProductByCode('R01'));
-//    $this->basket->add($this->catalogue->findProductByCode('R01'));//pre: 98.85, after: 82,375
-//
-//    $this->basket->addDeliveryRule(50, 4.95);
-//    $this->basket->addDeliveryRule(90, 2.95);
-//    $this->basket->addOffer(OfferType::BUY_ONE_GET_ONE_HALF);
-
-    //print if basket is empty
     $res = $this->printBasket();
     if (!$res) {
       return;
@@ -251,7 +255,7 @@ class Cli {
   /**
    * Set the default catalogue, based on the .pdf provided
    */
-  protected function setDefaultCatalogData(): void {
+  protected function setDefaultCatalogData(bool $printMessage = true): void {
     $items = [
       'R01' => ['name' => 'Red Widget', 'price' => 32.95],
       'G01' => ['name' => 'Green Widget', 'price' => 24.95],
@@ -263,7 +267,9 @@ class Cli {
       $this->catalogue->addProduct($product);
     }
 
-    $this->write("Default catalogue set.", true, 'green');
+    if ($printMessage) {
+      $this->write("Default catalogue set.", true, 'green');
+    }
   }
 
   protected function printCatalogue(): void {
@@ -290,5 +296,25 @@ class Cli {
     }
 
     return true;
+  }
+
+  /**
+   * Load the same data as in the example
+   * Catalogue:
+   * Red Widget (Product Code: R01) - $32.95
+   * Green Widget (Product Code: G01) - $24.95
+   * Blue Widget (Product Code: B01) - $7.95
+   *
+   * Special Offer: buy one red widget, get the second half price
+   *
+   * Delivery: Orders under $50 cost $4.95. For orders under $90, delivery costs $2.95. Orders of $90 or more have free delivery
+   */
+  protected function setDefaultUserData(): void {
+    $this->setDefaultCatalogData(false);
+    $this->basket->addDeliveryRule(50, 4.95);
+    $this->basket->addDeliveryRule(90, 2.95);
+    $this->basket->addOffer(OfferType::BUY_ONE_GET_ONE_HALF);
+
+    $this->write("Default data loaded.", true, 'green');
   }
 }
